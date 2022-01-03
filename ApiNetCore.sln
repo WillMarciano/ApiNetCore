@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarcianoIO.Api", "src\MarcianoIO.Api\MarcianoIO.Api.csproj", "{2BB27692-6035-4FD7-82D4-CE55164BF2F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarcianoIO.Business", "src\MarcianoIO.Business\MarcianoIO.Business.csproj", "{7270E400-EBBD-4732-9C3B-61CE91954777}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarcianoIO.Data", "src\MarcianoIO.Data\MarcianoIO.Data.csproj", "{C0303932-AC6C-4534-8740-520BADC9A32E}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BB27692-6035-4FD7-82D4-CE55164BF2F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB27692-6035-4FD7-82D4-CE55164BF2F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB27692-6035-4FD7-82D4-CE55164BF2F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB27692-6035-4FD7-82D4-CE55164BF2F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7270E400-EBBD-4732-9C3B-61CE91954777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7270E400-EBBD-4732-9C3B-61CE91954777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7270E400-EBBD-4732-9C3B-61CE91954777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7270E400-EBBD-4732-9C3B-61CE91954777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0303932-AC6C-4534-8740-520BADC9A32E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0303932-AC6C-4534-8740-520BADC9A32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0303932-AC6C-4534-8740-520BADC9A32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0303932-AC6C-4534-8740-520BADC9A32E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
