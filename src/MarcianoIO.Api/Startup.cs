@@ -1,7 +1,10 @@
+using MarcianoIO.Api.Configuration;
+using MarcianoIO.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,12 +29,16 @@ namespace MarcianoIO.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<BancoContexto>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            services.AddAutoMapper(typeof(Startup));            
+            services.AddMvc();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MarcianoIO.Api", Version = "v1" });
             });
+
+            services.ResolveDependencies();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
