@@ -2,6 +2,7 @@ using MarcianoIO.Api.Configuration;
 using MarcianoIO.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,10 @@ namespace MarcianoIO.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MarcianoIO.Api", Version = "v1" });
             });
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
             services.ResolveDependencies();
         }
 
