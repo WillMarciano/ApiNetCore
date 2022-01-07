@@ -10,7 +10,13 @@ namespace MarcianoIO.Api.Configuration
         {
             CreateMap<Fornecedor, FornecedorViewModel>().ReverseMap();
             CreateMap<Endereco, EnderecoViewModel>().ReverseMap();
-            CreateMap<Produto, ProdutoViewModel>().ReverseMap();
+            CreateMap<ProdutoViewModel, Produto>();
+
+            CreateMap<ProdutoImagemViewModel, Produto>().ReverseMap();
+
+            CreateMap<Produto, ProdutoViewModel>()
+                .ForMember(dest => dest.NomeFornecedor, opt => opt.MapFrom(src => src.Fornecedor.Nome));
+
         }
     }
 }

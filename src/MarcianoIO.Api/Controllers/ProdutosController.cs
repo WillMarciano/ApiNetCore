@@ -3,6 +3,7 @@ using MarcianoIO.Api.ViewModels;
 using MarcianoIO.Business.Intefaces;
 using MarcianoIO.Business.Interface;
 using MarcianoIO.Business.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,31 @@ namespace MarcianoIO.Api.Controllers
             return CustomResponse(produtoViewModel);
         }
 
+        [HttpPost("Adicionar")]
+        public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo(ProdutoImagemViewModel produtoViewModel)
+        {
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            var imgPrefixo = Guid.NewGuid() + "_";
+            if (!await UploadArquivoAlternativo(produtoViewModel.ImagemUpload, imgPrefixo))
+            {
+                return CustomResponse(ModelState);
+            }
+
+            produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+
+            return CustomResponse(produtoViewModel);
+        }
+
+        //Teste Imagem form-data
+        [RequestSizeLimit(40000000)]
+        [HttpPost("imagem")]
+        public async Task<ActionResult> AdicionarImagem(IFormFile file)
+        {
+            return Ok(file);
+        }
+
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> Adicionar(Guid id, ProdutoViewModel produtoViewModel)
         {
@@ -81,7 +107,6 @@ namespace MarcianoIO.Api.Controllers
 
         private bool UploadArquivo(string arquivo, string imgNome)
         {
-            var imageDataByteArray = Convert.FromBase64String(arquivo);
             if(string.IsNullOrEmpty(arquivo))
             {
                 //ModelState.AddModelError(string.Empty, "Forneça uma imagem para este produto!");
@@ -89,7 +114,9 @@ namespace MarcianoIO.Api.Controllers
                 return false;
             }
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagens", imgNome);
+            var imageDataByteArray = Convert.FromBase64String(arquivo);
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imgNome);
             if(System.IO.File.Exists(filePath))
             {
                 NotificarErro("Já existe um arquivo com este nome!");
@@ -97,6 +124,30 @@ namespace MarcianoIO.Api.Controllers
             }
 
             System.IO.File.WriteAllBytes(filePath, imageDataByteArray);
+            return true;
+        }
+
+        private async Task<bool> UploadArquivoAlternativo(IFormFile arquivo, string imgPrefixo)
+        {
+            if (arquivo == null || arquivo.Length == 0)
+            {
+                NotificarErro("Forneça uma imagem para este produto!");
+                return false;
+            }
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imgPrefixo + arquivo.FileName);
+
+            if (System.IO.File.Exists(path))
+            {
+                NotificarErro("Já existe um arquivo com este nome!");
+                return false;
+            }
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await arquivo.CopyToAsync(stream);
+            }
+
             return true;
         }
 
