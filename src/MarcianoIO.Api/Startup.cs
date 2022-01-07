@@ -36,6 +36,16 @@ namespace MarcianoIO.Api
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+            
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Development",
+                    builder => builder.AllowAnyMethod()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.ResolveDependencies();
         }
 
@@ -49,12 +59,13 @@ namespace MarcianoIO.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MarcianoIO.Api v1"));
             }
 
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
+            //app.UseAuthorization();
+            app.UseCors("Development");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
