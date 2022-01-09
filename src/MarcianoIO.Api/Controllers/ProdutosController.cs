@@ -48,9 +48,9 @@ namespace MarcianoIO.Api.Controllers
 
             var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
 
-            if(!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))            
+            if (!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
                 return CustomResponse(produtoViewModel);
-            
+
             produtoViewModel.Imagem = imagemNome;
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
@@ -83,16 +83,34 @@ namespace MarcianoIO.Api.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<ProdutoViewModel>> Adicionar(Guid id, ProdutoViewModel produtoViewModel)
+        public async Task<IActionResult> Atualizar(Guid id, ProdutoViewModel produtoViewModel)
         {
             if (id != produtoViewModel.Id)
             {
-                NotificarErro("O id informado não é o mesmo que foi passado na query");
-                return CustomResponse(produtoViewModel);
+                NotificarErro("Os ids informados não são iguais!");
+                return CustomResponse();
             }
 
+            var produtoAtualizacao = await ObterProduto(id);
+            produtoViewModel.Imagem = produtoAtualizacao.Imagem;
             if (!ModelState.IsValid) return CustomResponse(ModelState);
-            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoViewModel));
+
+            if (produtoViewModel.ImagemUpload != null)
+            {
+                var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
+                if (!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
+                {
+                    return CustomResponse(ModelState);
+                }
+                produtoAtualizacao.Imagem = imagemNome;
+            }
+
+            produtoAtualizacao.Nome = produtoViewModel.Nome;
+            produtoAtualizacao.Descricao = produtoViewModel.Descricao;
+            produtoAtualizacao.Valor = produtoViewModel.Valor;
+            produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+
+            await _produtoRepsitory.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
             return CustomResponse(produtoViewModel);
         }
 
@@ -107,7 +125,7 @@ namespace MarcianoIO.Api.Controllers
 
         private bool UploadArquivo(string arquivo, string imgNome)
         {
-            if(string.IsNullOrEmpty(arquivo))
+            if (string.IsNullOrEmpty(arquivo))
             {
                 //ModelState.AddModelError(string.Empty, "Forneça uma imagem para este produto!");
                 NotificarErro("Forneça uma imagem para este produto!");
@@ -117,7 +135,7 @@ namespace MarcianoIO.Api.Controllers
             var imageDataByteArray = Convert.FromBase64String(arquivo);
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imgNome);
-            if(System.IO.File.Exists(filePath))
+            if (System.IO.File.Exists(filePath))
             {
                 NotificarErro("Já existe um arquivo com este nome!");
                 return false;
@@ -151,7 +169,7 @@ namespace MarcianoIO.Api.Controllers
             return true;
         }
 
-        private async Task<ProdutoViewModel> ObterProduto(Guid id) 
+        private async Task<ProdutoViewModel> ObterProduto(Guid id)
             => _mapper.Map<ProdutoViewModel>(await _produtoRepsitory.ObterProdutoFornecedor(id));
     }
 }
