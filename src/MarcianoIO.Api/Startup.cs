@@ -18,29 +18,31 @@ namespace MarcianoIO.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BancoContexto>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
-            services.AddIdentityConfiguration(Configuration);
-            services.AddAutoMapper(typeof(Startup));            
+            services.AddDbContext<BancoContexto>(options 
+                => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentityConfig(Configuration);
+            services.AddAutoMapper(typeof(Startup));
+            services.AddApiConfig();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MarcianoIO.Api", Version = "v1" });
             });
-            services.WebApiConfig();
+            
             services.ResolveDependencies();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseApiConfig(env);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MarcianoIO.Api v1"));
             }
-            app.UseAuthorization();
-            app.UseAuthentication();
-            app.UseMvcConfiguration();
         }
     }
 }

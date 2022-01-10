@@ -3,6 +3,7 @@ using MarcianoIO.Api.ViewModels;
 using MarcianoIO.Business.Intefaces;
 using MarcianoIO.Business.Interface;
 using MarcianoIO.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MarcianoIO.Api.Controllers
 {
+    [Authorize]
     [Route("api/fornecedores")]
     public class FornecedoresController : MainController
     {
@@ -29,7 +31,8 @@ namespace MarcianoIO.Api.Controllers
             _fornecedorService = fornecedorService;
             _mapper = mapper;
         }
-
+        
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
         {

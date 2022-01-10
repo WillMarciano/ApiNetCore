@@ -32,7 +32,6 @@ namespace MarcianoIO.Api.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, registerUser.Password);
-
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);

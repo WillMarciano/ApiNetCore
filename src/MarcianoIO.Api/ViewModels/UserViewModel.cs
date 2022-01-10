@@ -13,7 +13,7 @@ namespace MarcianoIO.Api.ViewModels
         public string Password { get; set; }
 
         [Compare("Password", ErrorMessage ="As senhas não conferem.")]
-        public string ConfirmPassworf { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 
     public class LoginUserViewModel
