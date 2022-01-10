@@ -19,6 +19,7 @@ namespace MarcianoIO.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BancoContexto>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            services.AddIdentityConfiguration(Configuration);
             services.AddAutoMapper(typeof(Startup));            
 
             services.AddSwaggerGen(c =>
