@@ -38,6 +38,8 @@ namespace MarcianoIO.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MarcianoIO.Api v1"));
             }
+            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseMvcConfiguration();
         }
     }

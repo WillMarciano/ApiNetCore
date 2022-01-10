@@ -31,7 +31,7 @@ namespace MarcianoIO.Api.Configuration
         {
             app.UseHttpsRedirection();
             app.UseRouting();
-            //app.UseAuthorization();
+
             app.UseCors("Development");
 
             app.UseEndpoints(endpoints =>
