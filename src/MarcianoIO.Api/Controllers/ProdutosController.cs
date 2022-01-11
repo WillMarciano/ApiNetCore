@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MarcianoIO.Api.Extensions;
 using MarcianoIO.Api.ViewModels;
 using MarcianoIO.Business.Intefaces;
 using MarcianoIO.Business.Interface;
@@ -31,7 +32,6 @@ namespace MarcianoIO.Api.Controllers
             _mapper = mapper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<ProdutoViewModel>> ObterTodos()
             => _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepsitory.ObterProdutosFornecedores());
@@ -60,7 +60,8 @@ namespace MarcianoIO.Api.Controllers
             return CustomResponse(produtoViewModel);
         }
 
-        [HttpPost("Adicionar")]
+        [ClaimsAuthorize("Produto", "Adicionar")]
+        [HttpPost]
         public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo(ProdutoImagemViewModel produtoViewModel)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
@@ -85,6 +86,7 @@ namespace MarcianoIO.Api.Controllers
             return Ok(file);
         }
 
+        [ClaimsAuthorize("Produto", "Atualizar")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Atualizar(Guid id, ProdutoViewModel produtoViewModel)
         {
@@ -117,6 +119,7 @@ namespace MarcianoIO.Api.Controllers
             return CustomResponse(produtoViewModel);
         }
 
+        [ClaimsAuthorize("Produto", "Excluir")]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> Excluir(Guid id)
         {
