@@ -1,5 +1,4 @@
-﻿using MarcianoIO.Business.Intefaces;
-using MarcianoIO.Business.Interface;
+﻿using MarcianoIO.Business.Interfaces;
 using MarcianoIO.Business.Models;
 using MarcianoIO.Business.Models.Validations;
 using System;
@@ -10,6 +9,7 @@ namespace MarcianoIO.Business.Services
     public class ProdutoService : BaseService, IProdutoService
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IUser _user;
 
         public ProdutoService(IProdutoRepository produtoRepository,
                               INotificador notificador) : base(notificador)
@@ -20,6 +20,8 @@ namespace MarcianoIO.Business.Services
         public async Task Adicionar(Produto produto)
         {
             if (!ExecutarValidacao(new ProdutoValidation(), produto)) return;
+
+            //var user = _user.GetUserId();
 
             await _produtoRepository.Adicionar(produto);
         }

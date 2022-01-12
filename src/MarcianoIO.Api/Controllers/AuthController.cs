@@ -1,6 +1,6 @@
 ﻿using MarcianoIO.Api.Extensions;
 using MarcianoIO.Api.ViewModels;
-using MarcianoIO.Business.Intefaces;
+using MarcianoIO.Business.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -23,7 +23,8 @@ namespace MarcianoIO.Api.Controllers
         public AuthController(INotificador notificador,
                               SignInManager<IdentityUser> signInManager,
                               UserManager<IdentityUser> userManager,
-                              IOptions<AppSettings> appSettings) : base(notificador)
+                              IOptions<AppSettings> appSettings,
+                              IUser user) : base(notificador, user)
         {
             _signInManager = signInManager;
             _userManager = userManager;

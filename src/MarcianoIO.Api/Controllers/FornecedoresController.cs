@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using MarcianoIO.Api.Extensions;
 using MarcianoIO.Api.ViewModels;
-using MarcianoIO.Business.Intefaces;
-using MarcianoIO.Business.Interface;
+using MarcianoIO.Business.Interfaces;
 using MarcianoIO.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +24,8 @@ namespace MarcianoIO.Api.Controllers
                                       IEnderecoRepository enderecoRepository,
                                       IFornecedorService fornecedorService,
                                       IMapper mapper,
-                                      INotificador notificador) : base(notificador)
+                                      INotificador notificador,
+                                      IUser user) : base(notificador, user)
         {
             _fornecedorRepository = fornecedorRepository;
             _enderecoRepository = enderecoRepository;

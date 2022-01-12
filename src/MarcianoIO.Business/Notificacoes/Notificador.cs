@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MarcianoIO.Business.Intefaces;
+using MarcianoIO.Business.Interfaces;
 
 namespace MarcianoIO.Business.Notificacoes
 {

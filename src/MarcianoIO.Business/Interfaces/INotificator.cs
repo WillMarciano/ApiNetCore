@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MarcianoIO.Business.Notificacoes;
 
-namespace MarcianoIO.Business.Intefaces
+namespace MarcianoIO.Business.Interfaces
 {
     public interface INotificador
     {

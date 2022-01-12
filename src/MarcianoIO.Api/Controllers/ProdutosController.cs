@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using MarcianoIO.Api.Extensions;
 using MarcianoIO.Api.ViewModels;
-using MarcianoIO.Business.Intefaces;
-using MarcianoIO.Business.Interface;
+using MarcianoIO.Business.Interfaces;
 using MarcianoIO.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,7 +24,8 @@ namespace MarcianoIO.Api.Controllers
         public ProdutosController(IProdutoRepository produtoRepsitory,
                                   IProdutoService produtoService,
                                   IMapper mapper,
-                                  INotificador notificador) : base(notificador)
+                                  INotificador notificador,
+                                  IUser user) : base(notificador, user)
         {
             _produtoRepsitory = produtoRepsitory;
             _produtoService = produtoService;

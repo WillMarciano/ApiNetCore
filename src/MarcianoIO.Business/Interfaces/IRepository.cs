@@ -1,10 +1,10 @@
-﻿using MarcianoIO.Business.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using MarcianoIO.Business.Models;
 
-namespace MarcianoIO.Business.Interface
+namespace MarcianoIO.Business.Interfaces
 {
 	public interface IRepository<TEntity> : IDisposable where TEntity : Entity
 	{

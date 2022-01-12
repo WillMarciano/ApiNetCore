@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace MarcianoIO.Business.Interface
+namespace MarcianoIO.Business.Interfaces
 {
     public interface IEnderecoRepository : IRepository<Endereco>
     {

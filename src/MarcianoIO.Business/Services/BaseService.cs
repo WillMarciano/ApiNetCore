@@ -1,4 +1,4 @@
-﻿using MarcianoIO.Business.Intefaces;
+﻿using MarcianoIO.Business.Interfaces;
 using MarcianoIO.Business.Models;
 using FluentValidation;
 using FluentValidation.Results;

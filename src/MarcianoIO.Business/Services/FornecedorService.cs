@@ -1,5 +1,4 @@
-﻿using MarcianoIO.Business.Intefaces;
-using MarcianoIO.Business.Interface;
+﻿using MarcianoIO.Business.Interfaces;
 using MarcianoIO.Business.Models;
 using MarcianoIO.Business.Models.Validations;
 using System;

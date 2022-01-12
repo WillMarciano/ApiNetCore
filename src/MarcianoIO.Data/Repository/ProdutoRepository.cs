@@ -1,11 +1,12 @@
-﻿using MarcianoIO.Business.Models;
-using MarcianoIO.Business.Interface;
-using System.Threading.Tasks;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
+using MarcianoIO.Business.Interfaces;
+using MarcianoIO.Business.Models;
 using MarcianoIO.Data.Context;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace MarcianoIO.Data.Repository
 {
