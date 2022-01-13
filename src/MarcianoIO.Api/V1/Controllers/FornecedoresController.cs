@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MarcianoIO.Api.Controllers;
 using MarcianoIO.Api.Extensions;
 using MarcianoIO.Api.ViewModels;
 using MarcianoIO.Business.Interfaces;
@@ -9,10 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MarcianoIO.Api.Controllers
+namespace MarcianoIO.Api.V1.Controllers
 {
     [Authorize]
-    [Route("api/fornecedores")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/fornecedores")]
     public class FornecedoresController : MainController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
@@ -32,7 +34,7 @@ namespace MarcianoIO.Api.Controllers
             _fornecedorService = fornecedorService;
             _mapper = mapper;
         }
-        
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
@@ -84,7 +86,7 @@ namespace MarcianoIO.Api.Controllers
         }
 
         [HttpGet("obter-endereco/{id:guid}")]
-        public async Task<EnderecoViewModel> ObterEnderecoPorId(Guid id) 
+        public async Task<EnderecoViewModel> ObterEnderecoPorId(Guid id)
             => _mapper.Map<EnderecoViewModel>(await _enderecoRepository.ObterPorId(id));
 
         [ClaimsAuthorize("Fornecedor", "Atualizar")]

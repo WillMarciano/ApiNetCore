@@ -21,7 +21,7 @@ namespace MarcianoIO.Api.Controllers
             _notificador = notificador;
             AppUser = appUser;
 
-            if(appUser.IsAuthenticated())
+            if (appUser.IsAuthenticated())
             {
                 UsuarioId = appUser.GetUserId();
                 UsuarioAutenticado = true;

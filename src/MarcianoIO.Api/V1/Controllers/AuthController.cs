@@ -1,4 +1,5 @@
-﻿using MarcianoIO.Api.Extensions;
+﻿using MarcianoIO.Api.Controllers;
+using MarcianoIO.Api.Extensions;
 using MarcianoIO.Api.ViewModels;
 using MarcianoIO.Business.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -12,9 +13,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarcianoIO.Api.Controllers
+namespace MarcianoIO.Api.V1.Controllers
 {
-    [Route("api")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}")]
     public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;

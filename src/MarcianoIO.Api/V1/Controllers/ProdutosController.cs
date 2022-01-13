@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MarcianoIO.Api.Controllers;
 using MarcianoIO.Api.Extensions;
 using MarcianoIO.Api.ViewModels;
 using MarcianoIO.Business.Interfaces;
@@ -11,10 +12,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace MarcianoIO.Api.Controllers
+namespace MarcianoIO.Api.V1.Controllers
 {
     [Authorize]
-    [Route("api/produtos")]
+    [Route("api/v{version:apiVersion}/produtos")]
     public class ProdutosController : MainController
     {
         private readonly IProdutoRepository _produtoRepsitory;
@@ -79,12 +80,12 @@ namespace MarcianoIO.Api.Controllers
         }
 
         //Teste Imagem form-data
-        [RequestSizeLimit(40000000)]
-        [HttpPost("imagem")]
-        public async Task<ActionResult> AdicionarImagem(IFormFile file)
-        {
-            return Ok(file);
-        }
+        //[RequestSizeLimit(40000000)]
+        //[HttpPost("imagem")]
+        //public async Task<ActionResult> AdicionarImagem(IFormFile file)
+        //{
+        //    return Ok(file);
+        //}
 
         [ClaimsAuthorize("Produto", "Atualizar")]
         [HttpPut("{id:guid}")]
