@@ -35,7 +35,6 @@ namespace MarcianoIO.Api.V1.Controllers
             _mapper = mapper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
         {
@@ -50,6 +49,10 @@ namespace MarcianoIO.Api.V1.Controllers
             if (fornecedor == null) return NotFound();
             return fornecedor;
         }
+
+        [HttpGet("obter-endereco/{id:guid}")]
+        public async Task<EnderecoViewModel> ObterEnderecoPorId(Guid id)
+            => _mapper.Map<EnderecoViewModel>(await _enderecoRepository.ObterPorId(id));
 
         [ClaimsAuthorize("Fornecedor", "Adicionar")]
         [HttpPost]
@@ -75,20 +78,6 @@ namespace MarcianoIO.Api.V1.Controllers
             return CustomResponse(fornecedorViewModel);
         }
 
-        [ClaimsAuthorize("Fornecedor", "Excluir")]
-        [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<FornecedorViewModel>> Excluir(Guid id)
-        {
-            var fornecedorViewModel = await ObterFornecedorEndereco(id);
-            if (fornecedorViewModel == null) return NotFound();
-            await _fornecedorService.Remover(id);
-            return CustomResponse(fornecedorViewModel);
-        }
-
-        [HttpGet("obter-endereco/{id:guid}")]
-        public async Task<EnderecoViewModel> ObterEnderecoPorId(Guid id)
-            => _mapper.Map<EnderecoViewModel>(await _enderecoRepository.ObterPorId(id));
-
         [ClaimsAuthorize("Fornecedor", "Atualizar")]
         [HttpPut("atualizar-endereco/{id:guid}")]
         public async Task<IActionResult> AtualizarEndereco(Guid id, EnderecoViewModel enderecoViewModel)
@@ -102,6 +91,16 @@ namespace MarcianoIO.Api.V1.Controllers
 
             await _fornecedorService.AtualizarEndereco(_mapper.Map<Endereco>(enderecoViewModel));
             return CustomResponse(enderecoViewModel);
+        }
+
+        [ClaimsAuthorize("Fornecedor", "Excluir")]
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult<FornecedorViewModel>> Excluir(Guid id)
+        {
+            var fornecedorViewModel = await ObterFornecedorEndereco(id);
+            if (fornecedorViewModel == null) return NotFound();
+            await _fornecedorService.Remover(id);
+            return CustomResponse(fornecedorViewModel);
         }
 
         private async Task<FornecedorViewModel> ObterFornecedorProdutosEndereco(Guid id)

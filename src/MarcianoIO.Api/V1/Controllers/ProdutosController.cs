@@ -15,22 +15,26 @@ using System.Threading.Tasks;
 namespace MarcianoIO.Api.V1.Controllers
 {
     [Authorize]
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/produtos")]
     public class ProdutosController : MainController
     {
         private readonly IProdutoRepository _produtoRepsitory;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ProdutosController(IProdutoRepository produtoRepsitory,
                                   IProdutoService produtoService,
                                   IMapper mapper,
                                   INotificador notificador,
-                                  IUser user) : base(notificador, user)
+                                  IUser user,
+                                  IHttpContextAccessor httpContextAccessor) : base(notificador, user)
         {
             _produtoRepsitory = produtoRepsitory;
             _produtoService = produtoService;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -45,6 +49,7 @@ namespace MarcianoIO.Api.V1.Controllers
             return produtoViewModel;
         }
 
+        [ClaimsAuthorize("Produto", "Adicionar")]
         [HttpPost]
         public async Task<ActionResult<ProdutoViewModel>> Adicionar(ProdutoViewModel produtoViewModel)
         {
@@ -62,7 +67,7 @@ namespace MarcianoIO.Api.V1.Controllers
         }
 
         [ClaimsAuthorize("Produto", "Adicionar")]
-        [HttpPost]
+        [HttpPost("adicionar")]
         public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo(ProdutoImagemViewModel produtoViewModel)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
@@ -78,14 +83,6 @@ namespace MarcianoIO.Api.V1.Controllers
 
             return CustomResponse(produtoViewModel);
         }
-
-        //Teste Imagem form-data
-        //[RequestSizeLimit(40000000)]
-        //[HttpPost("imagem")]
-        //public async Task<ActionResult> AdicionarImagem(IFormFile file)
-        //{
-        //    return Ok(file);
-        //}
 
         [ClaimsAuthorize("Produto", "Atualizar")]
         [HttpPut("{id:guid}")]
@@ -128,6 +125,15 @@ namespace MarcianoIO.Api.V1.Controllers
             if (produto == null) return NotFound();
             await _produtoService.Remover(id);
             return CustomResponse(produto);
+        }
+
+        //Teste Imagem form-data
+        [RequestSizeLimit(40000000)]
+        //[DisableRequestSizeLimit]
+        [HttpPost("imagem")]
+        public ActionResult AdicionarImagem(IFormFile file)
+        {
+            return Ok(file);
         }
 
         private bool UploadArquivo(string arquivo, string imgNome)
