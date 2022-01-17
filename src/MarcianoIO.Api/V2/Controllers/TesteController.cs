@@ -20,7 +20,7 @@ namespace MarcianoIO.Api.V2.Controllers
         [HttpGet]
         public string RetornaValor()
         {
-            throw new Exception("Error");
+            //throw new Exception("Error");
 
             //try
             //{

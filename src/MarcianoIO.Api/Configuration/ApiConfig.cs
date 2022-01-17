@@ -1,4 +1,5 @@
-﻿using MarcianoIO.Api.Extensions;
+﻿using HealthChecks.UI.Client;
+using MarcianoIO.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -83,20 +84,20 @@ namespace MarcianoIO.Api.Configuration
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                //endpoints.MapHealthChecks("/api/hc", new HealthCheckOptions()
-                //{
-                //    Predicate = _ => true,
-                //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                //});
-                //endpoints.MapHealthChecksUI(options =>
-                //{
-                //    options.UIPath = "/api/hc-ui";
-                //    options.ResourcesPath = "/api/hc-ui-resources";
+                endpoints.MapHealthChecks("/api/hc", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+                endpoints.MapHealthChecksUI(options =>
+                {
+                    options.UIPath = "/api/hc-ui";
+                    options.ResourcesPath = "/api/hc-ui-resources";
 
-                //    options.UseRelativeApiPath = false;
-                //    options.UseRelativeResourcesPath = false;
-                //    options.UseRelativeWebhookPath = false;
-                //});
+                    options.UseRelativeApiPath = false;
+                    options.UseRelativeResourcesPath = false;
+                    options.UseRelativeWebhookPath = false;
+                });
 
             });
 
