@@ -44,6 +44,8 @@ namespace MarcianoIO.Api
 
             services.AddSwaggerConfig();
 
+            services.AddLoggingConfig(Configuration);
+
             services.ResolveDependencies();
 
         }
@@ -53,6 +55,8 @@ namespace MarcianoIO.Api
             app.UseApiConfig(env);
 
             app.UseSwaggerConfig(provider);
+
+            app.UseLoggingConfiguration();
         }
     }
 }

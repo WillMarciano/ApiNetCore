@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>a9600a76-f320-4b97-b7c6-4ccb687baf86</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="Automapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Elmah.Io.AspNetCore" Version="4.1.37" />
+    <PackageReference Include="Elmah.Io.Extensions.Logging" Version="4.1.28" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.13" />
